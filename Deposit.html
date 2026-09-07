@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Insufficient Deposit - FLUTTERWAVE</title>
+<style>
+/* ===== GENERAL RESET ===== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+html, body {
+  height: 100%;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f4f6f8;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ===== HEADER ===== */
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  padding: 20px;
+  font-size: 22px;
+  font-weight: bold;
+  color: white;
+  text-align: center;
+  z-index: 1000;
+  backdrop-filter: blur(12px);
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  background: linear-gradient(270deg, #0066ff, #00b4d8, #66ccff, #0066ff);
+  background-size: 800% 800%;
+  animation: gradientShift 15s ease infinite;
+}
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* ===== MENU ICON & DROPDOWN ===== */
+.menu-icon {
+  font-size: 24px;
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  z-index: 1001;
+  color: white;
+}
+
+.dropdown {
+  position: fixed;
+  top: 60px;
+  left: 20px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.12);
+  display: none;
+  flex-direction: column;
+  z-index: 999;
+  min-width: 180px;
+}
+
+.dropdown a {
+  padding: 12px 18px;
+  text-decoration: none;
+  color: #333;
+  font-weight: 500;
+  border-bottom: 1px solid #eee;
+}
+
+.dropdown a:hover { background-color: #f4f4f4; }
+
+/* ===== MAIN CONTENT ===== */
+.main-content {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding-top: 120px; /* header space */
+  padding-bottom: 60px; /* footer space */
+  width: 100%;
+}
+
+.message-box {
+  background: #fff;
+  padding: 35px 30px;
+  border-radius: 24px;
+  box-shadow: 0 12px 30px rgba(0,0,0,0.1);
+  max-width: 450px;
+  width: 90%;
+  animation: slideUp 0.6s ease both;
+  text-align: center;
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.message-box h2 {
+  color: #0066ff;
+  font-weight: 700;
+  margin-bottom: 20px;
+}
+
+.message-box p {
+  color: #555;
+  font-size: 16px;
+  margin-bottom: 25px;
+}
+
+/* ===== DEPOSIT PLAN SELECT ===== */
+.deposit-plans-container {
+  text-align: left;
+  background-color: #f0f4ff;
+  border: 1.5px solid #0066ff;
+  border-radius: 12px;
+  padding: 20px 25px;
+  margin-bottom: 25px;
+  box-shadow: 0 4px 15px rgba(0,102,255,0.1);
+}
+
+.deposit-plans-container h3 {
+  margin-bottom: 15px;
+  color: #0066ff;
+  font-weight: 600;
+}
+
+.deposit-select {
+  width: 100%;
+  padding: 12px;
+  font-size: 15px;
+  border: 1.5px solid #0066ff;
+  border-radius: 10px;
+  background-color: #fff;
+  color: #333;
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20width%3D'14'%20height%3D'10'%20xmlns%3D'http://www.w3.org/2000/svg'%3E%3Cpath%20d%3D'M1%201l6%206%206-6'%20stroke%3D'%230066ff'%20stroke-width%3D'2'%20fill%3D'none'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 14px 10px;
+  cursor: pointer;
+}
+
+.warning-message {
+  color: #d93025;
+  font-size: 14px;
+  margin-top: 8px;
+  display: none;
+}
+
+/* ===== BUTTON ===== */
+.button {
+  display: inline-block;
+  background: linear-gradient(135deg, #0066ff, #00b4d8);
+  color: white;
+  padding: 14px 28px;
+  text-decoration: none;
+  border-radius: 12px;
+  font-weight: bold;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(0,102,255,0.35);
+}
+
+/* ===== FOOTER ===== */
+.footer {
+  text-align: center;
+  padding: 15px 10px;
+  font-size: 14px;
+  color: #777;
+  margin-top: auto;
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="menu-icon" onclick="toggleMenu()">☰</div>
+  FLUTTERWAVE
+  <div id="dropdownMenu" class="dropdown">
+    <a href="Dashboard.html">Dashboard</a>
+    <a href="tasks.html">Tasks</a>
+    <a href="logout.html">Logout</a>
+  </div>
+</div>
+
+<!-- MAIN CONTENT -->
+<div class="main-content">
+  <div class="message-box">
+    <h2>DEPOSIT PLANS</h2>
+    <p>Please choose a deposit plan so we can assign you the appropriate number of daily tasks. You may withdraw your deposit whenever you wish.</p>
+
+    <div class="deposit-plans-container">
+      <h3>Choose a Deposit Plan</h3>
+      <select id="depositPlan" class="deposit-select">
+        <option value="">-- Select a Plan --</option>
+        <option value="Starter-plan.html">🌱 STARTER PLAN ⇥85,500RFW ⇤ 4 Videos/Day</option>
+        <option value="Basic-plan.html">🧰 BASIC PLAN ⇥155,500RWF ⇤ 6 Videos/Day</option>
+        <option value="Bronze-plan.html">🥉 BRONZE PLAN ⇥305,000RWF ⇤ 10 Videos/Day</option>
+        <option value="Standard-plan.html">⚖️ STANDARD PLAN ⇥500,500RWF ⇤ 15 Videos/Day</option>
+        <option value="Silver-plan.html">🪙 SILVER PLAN ⇥705,000RFW ⇤ 20 Videos/Day</option>
+        <option value="Premium-plan.html">💼 PREMIUM PLAN ⇥1,100,000 ⇤ 25 Videos/Day</option>
+        <option value="Gold-plan.html">🏅 GOLD PLAN ⇥1,600,000RWF ⇤ 30 Videos/Day</option>
+        <option value="Platinum-plan.html">💎 PLATINUM PLAN ⇥2,100,000RWF ⇤ 35 Videos/Day</option>
+      </select>
+      <div id="planWarning" class="warning-message">Please select a deposit plan before proceeding.</div>
+    </div>
+
+    <a href="#" class="button" onclick="handleDeposit()">Deposit Now</a>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+  &copy; 2022 Flutterwave. All rights reserved.
+</div>
+
+<script>
+function toggleMenu() {
+  const menu = document.getElementById("dropdownMenu");
+  menu.style.display = (menu.style.display === "flex") ? "none" : "flex";
+}
+
+document.addEventListener('click', function(event) {
+  const menu = document.getElementById("dropdownMenu");
+  const icon = document.querySelector('.menu-icon');
+  if (!menu.contains(event.target) && !icon.contains(event.target)) {
+    menu.style.display = "none";
+  }
+});
+
+function handleDeposit() {
+  const selectedPlan = document.getElementById("depositPlan").value;
+  const warning = document.getElementById("planWarning");
+  if (!selectedPlan) {
+    warning.style.display = "block";
+  } else {
+    warning.style.display = "none";
+    window.location.href = selectedPlan;
+  }
+}
+</script>
+</body>
+</html>

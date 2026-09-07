@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Business Card Payment - THUNES LTD</title>
+<style>
+/* ===== GENERAL RESET ===== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+html, body {
+  height: 100%;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f4f6f8;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ===== HEADER ===== */
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  padding: 20px;
+  font-size: 22px;
+  font-weight: bold;
+  color: white;
+  text-align: center;
+  z-index: 1000;
+  backdrop-filter: blur(12px);
+  background: linear-gradient(270deg, #0066ff, #00b4d8, #66ccff, #0066ff);
+  background-size: 800% 800%;
+  animation: gradientShift 15s ease infinite;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* ===== MENU BUTTON & DROPDOWN ===== */
+.menu-icon {
+  font-size: 24px;
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  z-index: 1001;
+  color: white;
+}
+
+.dropdown {
+  position: fixed;
+  top: 60px;
+  left: 20px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.12);
+  display: none;
+  flex-direction: column;
+  z-index: 999;
+  min-width: 180px;
+  animation: fadeIn 0.3s ease;
+}
+.dropdown a {
+  padding: 12px 18px;
+  text-decoration: none;
+  color: #333;
+  font-weight: 500;
+  border-bottom: 1px solid #eee;
+}
+.dropdown a:hover { background-color: #f4f4f4; }
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ===== PAGE CONTENT ===== */
+.content-wrapper {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding-top: 140px; /* header space */
+  padding-bottom: 60px; /* footer space */
+  width: 100%;
+}
+
+.container {
+  background: #fff;
+  padding: 35px 30px;
+  border-radius: 24px;
+  box-shadow: 0 12px 30px rgba(0,0,0,0.1);
+  max-width: 400px;
+  width: 90%;
+  animation: slideUp 0.6s ease both;
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+h2 {
+  text-align: center;
+  color: #0066ff;
+  margin-bottom: 20px;
+  font-weight: 700;
+}
+
+p {
+  text-align: center;
+  margin-bottom: 15px;
+  font-size: 16px;
+  color: #444;
+}
+
+.payment-info {
+  background-color: #f0ebfa;
+  border-left: 4px solid #6c2bd9;
+  padding: 15px 20px;
+  margin: 20px 0;
+  border-radius: 12px;
+  font-size: 15px;
+  color: #333;
+}
+
+.payment-info strong {
+  display: block;
+  margin: 8px 0 4px;
+  font-size: 16px;
+  color: #0066ff;
+}
+
+.payment-info button {
+  margin-top: 10px;
+  width: 100%;
+  padding: 12px;
+  background-color: #0066ff;
+  border: none;
+  color: white;
+  font-weight: 600;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+.payment-info button:hover {
+  background-color: #0050c8;
+}
+
+button#submitBtn {
+  width: 100%;
+  padding: 14px;
+  background: linear-gradient(135deg, #0066ff, #00b4d8);
+  color: #fff;
+  font-weight: 600;
+  border: none;
+  border-radius: 14px;
+  cursor: pointer;
+  margin-top: 15px;
+}
+button#submitBtn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(0,102,255,0.35);
+}
+
+.back-link {
+  text-align: center;
+  margin-top: 18px;
+}
+.back-link a {
+  text-decoration: none;
+  color: #0066ff;
+  font-weight: 600;
+}
+
+/* ===== VERIFICATION CODE MODAL ===== */
+#uploadModal {
+  display: none;
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background-color: rgba(0,0,0,0.5);
+  z-index: 9999;
+  justify-content: center;
+  align-items: center;
+}
+
+#uploadModalContent {
+  background: #fff;
+  border-radius: 20px;
+  max-width: 90%;
+  width: 350px;
+  padding: 30px 25px;
+  text-align: center;
+  box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+  position: relative;
+  animation: popUp 0.3s ease forwards;
+}
+
+@keyframes popUp {
+  from { transform: scale(0.8); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+#uploadModalContent h2 {
+  color: #0066ff;
+  margin-bottom: 20px;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+#activationCodeInput {
+  width: 90%;
+  padding: 12px 15px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 12px;
+  margin-bottom: 20px;
+}
+
+#activationSubmitBtn {
+  width: 90%;
+  padding: 12px;
+  border-radius: 12px;
+  border: none;
+  font-weight: 600;
+  color: #fff;
+  cursor: pointer;
+  background: linear-gradient(135deg, #0066ff, #00b4d8);
+  transition: 0.3s;
+}
+
+#activationSubmitBtn:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
+
+#activationSubmitBtn:hover:enabled {
+  box-shadow: 0 8px 20px rgba(0,102,255,0.35);
+  transform: translateY(-2px);
+}
+
+#closeUploadModal {
+  position: absolute;
+  top: 12px;
+  right: 15px;
+  font-size: 22px;
+  cursor: pointer;
+}
+
+/* ===== FOOTER ===== */
+.footer {
+  text-align: center;
+  padding: 15px 10px;
+  font-size: 14px;
+  color: #777;
+  margin-top: auto;
+}
+</style>
+</head>
+<body>
+
+<!-- Header -->
+<div class="header">
+  <button class="menu-icon" onclick="toggleMenu()">☰</button>
+  THUNES LTD
+  <div id="dropdownMenu" class="dropdown">
+    <a href="Dashboard.html">Dashboard</a>
+    <a href="Earn.html">Tasks</a>
+    <a href="Earn.html">About</a>
+    <a href="Login.html">Logout</a>
+  </div>
+</div>
+
+<!-- Content -->
+<div class="content-wrapper">
+  <div class="container">
+    <h2>Verification Code Payment</h2>
+    <p>To enable cash out, pay a fee of <strong>65,500 RWF</strong> for verification code.</p>
+
+    <div class="payment-info">
+      <strong>PAYMENT METHOD:</strong>
+      ☛*182*1*3*1*256770343390#
+      <p>• AMOUNT 65,500RWF</p>
+      <a href="tel:*182*1*3*1*256770343390#">
+        <button>Pay Now</button>
+      </a>
+    </div>
+
+    <button id="submitBtn">SUBMIT</button>
+    <div class="back-link">
+      <a href="Dashboard.html">← Back to Dashboard</a>
+    </div>
+  </div>
+</div>
+
+<!-- Verification Code Modal -->
+<div id="uploadModal">
+  <div id="uploadModalContent">
+    <span id="closeUploadModal">&times;</span>
+    <h2>Enter Your Verification Code</h2>
+    <input type="text" id="activationCodeInput" placeholder="Enter verification code"/>
+    <br/>
+    <button id="activationSubmitBtn" disabled>SUBMIT</button>
+    <p id="codeError" style="color:red; display:none; margin-top:10px;">Invalid code. Please try again.</p>
+  </div>
+</div>
+
+<!-- Footer -->
+<div class="footer">
+  &copy; 2022 Thunes. All rights reserved.
+</div>
+
+<script>
+// Menu logic
+function toggleMenu() {
+  const menu = document.getElementById("dropdownMenu");
+  menu.style.display = (menu.style.display === "flex") ? "none" : "flex";
+}
+document.addEventListener('click', function(event) {
+  const menu = document.getElementById("dropdownMenu");
+  const icon = document.querySelector('.menu-icon');
+  if (!menu.contains(event.target) && !icon.contains(event.target)) {
+    menu.style.display = "none";
+  }
+});
+
+// Show modal only when submit clicked
+const submitBtn = document.getElementById("submitBtn");
+const uploadModal = document.getElementById("uploadModal");
+const closeUploadModal = document.getElementById("closeUploadModal");
+const activationCodeInput = document.getElementById("activationCodeInput");
+const activationSubmitBtn = document.getElementById("activationSubmitBtn");
+const codeError = document.getElementById("codeError");
+
+submitBtn.addEventListener("click", () => {
+  uploadModal.style.display = "flex";
+  activationCodeInput.value = "";
+  activationSubmitBtn.disabled = true;
+  codeError.style.display = "none";
+  activationCodeInput.focus();
+});
+
+activationCodeInput.addEventListener("input", () => {
+  activationSubmitBtn.disabled = activationCodeInput.value.trim() !== "015000";
+  codeError.style.display = "none";
+});
+
+activationSubmitBtn.addEventListener("click", () => {
+  if (activationCodeInput.value.trim() === "015000") {
+    window.location.href = "Insufficient-deposit.html";
+  } else {
+    codeError.style.display = "block";
+  }
+});
+
+closeUploadModal.addEventListener("click", () => uploadModal.style.display = "none");
+
+window.addEventListener("click", e => {
+  if (e.target === uploadModal) uploadModal.style.display = "none";
+});
+</script>
+
+</body>
+</html>

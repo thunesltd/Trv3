@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Watch & Earn - FLUTTERWAVE</title>
+
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: #f4f6f8;
+  min-height: 100vh;
+  padding-top: 140px;
+}
+
+/* ===== HEADER (DASHBOARD STYLE) ===== */
+header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  padding: 20px;
+  text-align: center;
+  font-size: 22px;
+  font-weight: 800;
+  color: #fff;
+  background: linear-gradient(270deg, #0066ff, #00b4d8, #66ccff);
+  background-size: 800% 800%;
+  animation: gradientShift 15s ease infinite;
+  z-index: 1000;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+}
+
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.menu-icon {
+  position: absolute;
+  left: 20px;
+  top: 20px;
+  font-size: 24px;
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+}
+
+/* ===== DROPDOWN ===== */
+.dropdown {
+  position: absolute;
+  top: 65px;
+  left: 20px;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 12px 30px rgba(0,0,0,0.15);
+  display: none;
+  flex-direction: column;
+  overflow: hidden;
+  z-index: 1001;
+}
+
+.dropdown a {
+  padding: 12px 18px;
+  text-decoration: none;
+  color: #333;
+  font-weight: 600;
+}
+
+.dropdown a:hover {
+  background: #f4f6f8;
+}
+
+/* ===== MAIN CONTAINER ===== */
+.container {
+  max-width: 1100px;
+  margin: auto;
+  background: rgba(255,255,255,0.92);
+  backdrop-filter: blur(10px);
+  border-radius: 24px;
+  padding: 35px 30px 40px;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+}
+
+/* ===== TITLES ===== */
+h1 {
+  text-align: center;
+  font-size: 30px;
+  color: #0066ff;
+  margin-bottom: 10px;
+}
+
+#welcomeMessage {
+  text-align: center;
+  font-size: 18px;
+  color: #444;
+  margin-bottom: 30px;
+  font-weight: 600;
+}
+
+/* ===== VIDEO GRID ===== */
+.videos {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 25px;
+}
+
+/* ===== VIDEO CARD ===== */
+.video-card {
+  background: linear-gradient(135deg, #ffffff, #f3f6ff);
+  border-radius: 20px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.video-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 16px 35px rgba(0,0,0,0.15);
+}
+
+.video-card iframe {
+  width: 100%;
+  height: 180px;
+  border: none;
+}
+
+.video-info {
+  padding: 20px;
+  text-align: center;
+}
+
+.video-info h4 {
+  margin-bottom: 12px;
+  font-size: 18px;
+  font-weight: 700;
+  color: #333;
+}
+
+/* ===== BUTTON ===== */
+.earn-btn {
+  padding: 10px 20px;
+  background: linear-gradient(135deg, #0066ff, #00b4d8);
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.earn-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px rgba(0,102,255,0.35);
+}
+
+.earn-btn:disabled {
+  background: #aaa;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+/* ===== BACK BUTTON ===== */
+.back-btn {
+  margin: 40px auto 0;
+  display: block;
+  padding: 14px 32px;
+  background: linear-gradient(135deg, #0066ff, #00b4d8);
+  color: white;
+  border: none;
+  border-radius: 14px;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+/* ===== FOOTER ===== */
+.footer {
+  text-align: center;
+  padding: 18px;
+  font-size: 14px;
+  color: #555;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <button class="menu-icon" onclick="toggleMenu()">☰</button>
+  FLUTTERWAVE
+
+  <div id="dropdownMenu" class="dropdown">
+    <a href="Dashboard.html">Dashboard</a>
+    <a href="Earn.html">Tasks</a>
+    <a href="#" id="logoutBtn">Logout</a>
+  </div>
+</header>
+
+<div class="container">
+  <h1>🎥 Watch & Earn</h1>
+  <div id="welcomeMessage">Welcome, User!</div>
+
+  <div class="videos">
+
+    <!-- Video 1 -->
+    <div class="video-card">
+      <iframe src="https://www.youtube.com/embed/5FVO3IHwIzw?rel=0&modestbranding=1&showinfo=0" allowfullscreen></iframe>
+      <div class="video-info">
+        <h4>Watch & Earn</h4>
+        <button class="earn-btn" data-video-id="video1">Earn RWF 25,500</button>
+      </div>
+    </div>
+
+    <!-- Video 2 -->
+    <div class="video-card">
+      <iframe src="https://www.youtube.com/embed/-8UPg6hyDBg?rel=0&modestbranding=1&showinfo=0" allowfullscreen></iframe>
+      <div class="video-info">
+        <h4>Watch & Earn</h4>
+        <button class="earn-btn" data-video-id="video2">Earn RWF 25,500</button>
+      </div>
+    </div>
+
+    <!-- Video 3 -->
+    <div class="video-card">
+      <iframe src="https://www.youtube.com/embed/0Ab-F7Y3IXc?rel=0&modestbranding=1&showinfo=0" allowfullscreen></iframe>
+      <div class="video-info">
+        <h4>Watch & Earn</h4>
+        <button class="earn-btn" data-video-id="video3">Earn RWF 25,500</button>
+      </div>
+    </div>
+
+  </div>
+
+  <button class="back-btn" onclick="window.location.href='Dashboard.html'">⬅ Back to Dashboard</button>
+</div>
+
+<div class="footer">
+  &copy; 2022 Onafriq Mauritius. All rights reserved.
+</div>
+
+<!-- ===== FIREBASE LOGIC ===== -->
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js";
+import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js";
+import { getDatabase, ref, get, update } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-database.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyCbuLoyGu6v7dJUDQ0iM2DkvEZs0D9z2Do",
+  authDomain: "mfs-africa-ltd.firebaseapp.com",
+  databaseURL: "https://mfs-africa-ltd-default-rtdb.firebaseio.com",
+  projectId: "mfs-africa-ltd",
+  storageBucket: "mfs-africa-ltd.appspot.com",
+  messagingSenderId: "686833267635",
+  appId: "1:686833267635:web:c5a531346887f6452bd1c6"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getDatabase(app);
+
+const welcomeEl = document.getElementById("welcomeMessage");
+
+onAuthStateChanged(auth, async (user) => {
+  if (!user) {
+    window.location.href = "Login.html";
+    return;
+  }
+
+  const uid = user.uid;
+  const userRef = ref(db, `users/${uid}`);
+  const snapshot = await get(userRef);
+
+  if (!snapshot.exists()) return;
+
+  const data = snapshot.val();
+  welcomeEl.textContent = `Welcome, ${data.username || "User"}!`;
+
+  const watched = data.watchedVideos || {};
+
+  document.querySelectorAll(".earn-btn").forEach(btn => {
+    const videoId = btn.dataset.videoId;
+
+    if (watched[videoId]) {
+      btn.disabled = true;
+      btn.textContent = "Already Earned";
+    }
+
+    btn.addEventListener("click", async () => {
+      if (watched[videoId]) return;
+
+      const earnAmount = 25500;
+      watched[videoId] = true;
+
+      await update(userRef, {
+        totalEarn: (data.totalEarn || 0) + earnAmount,
+        balance: (data.balance || 0) + earnAmount,
+        watchedVideos: watched
+      });
+
+      btn.disabled = true;
+      btn.textContent = "Already Earned";
+      alert("✅ RWF 25,500 added to your balance!");
+    });
+  });
+});
+
+function toggleMenu() {
+  const menu = document.getElementById("dropdownMenu");
+  menu.style.display = menu.style.display === "flex" ? "none" : "flex";
+}
+
+document.getElementById("logoutBtn").addEventListener("click", async (e) => {
+  e.preventDefault();
+  await signOut(auth);
+  window.location.href = "Login.html";
+});
+
+document.addEventListener("click", (e) => {
+  const menu = document.getElementById("dropdownMenu");
+  const icon = document.querySelector(".menu-icon");
+  if (!menu.contains(e.target) && !icon.contains(e.target)) {
+    menu.style.display = "none";
+  }
+});
+</script>
+
+</body>
+</html>

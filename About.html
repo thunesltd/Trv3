@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Welcome to Flutterwave</title>
+<style>
+/* ===== GENERAL RESET ===== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+html, body {
+  width: 100%;
+  min-height: 100%;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f4f6f8;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ===== HEADER ===== */
+header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  padding: 20px;
+  text-align: center;
+  font-size: 22px;
+  font-weight: bold;
+  color: white;
+  backdrop-filter: blur(12px);
+  background: linear-gradient(270deg, #0066ff, #00b4d8, #66ccff, #0066ff);
+  background-size: 800% 800%;
+  animation: gradientShift 15s ease infinite;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  z-index: 1000;
+}
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* ===== MENU BUTTON & DROPDOWN ===== */
+.menu-btn {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  font-size: 24px;
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+  z-index: 1001;
+}
+
+.dropdown-menu {
+  position: fixed;
+  top: 60px;
+  left: 20px;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+  list-style: none;
+  padding: 10px 0;
+  display: none;
+  flex-direction: column;
+  min-width: 160px;
+  z-index: 998;
+}
+.dropdown-menu li a {
+  display: block;
+  padding: 12px 20px;
+  text-decoration: none;
+  color: #333;
+  font-weight: 500;
+}
+.dropdown-menu li a:hover {
+  background-color: #f4f4f4;
+}
+
+/* ===== MAIN CONTENT ===== */
+.container {
+  flex: 1;
+  max-width: 900px;
+  margin: 140px auto 60px;
+  padding: 20px 30px;
+  background: #fff;
+  border-radius: 20px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+  animation: slideUp 0.6s ease both;
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.container h1 {
+  color: #0066ff;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.container h2 {
+  color: #0066ff;
+  margin-top: 30px;
+  margin-bottom: 10px;
+}
+
+.container p {
+  font-size: 15px;
+  line-height: 1.6;
+  color: #555;
+  margin-bottom: 12px;
+}
+
+ul {
+  padding-left: 20px;
+  margin-bottom: 15px;
+}
+ul li {
+  margin-bottom: 8px;
+  font-size: 15px;
+}
+
+.highlight {
+  font-weight: 700;
+  color: #0066ff;
+}
+
+/* ===== FOOTER ===== */
+.footer {
+  text-align: center;
+  font-size: 14px;
+  color: #777;
+  padding: 15px 0;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+  .container {
+    margin: 120px 15px 50px;
+    padding: 20px;
+  }
+  .dropdown-menu {
+    min-width: 140px;
+  }
+}
+</style>
+</head>
+<body>
+
+<header>
+  <button class="menu-btn" id="menuBtn">&#9776;</button>
+  THUNES LTD
+  <ul class="dropdown-menu" id="dropdownMenu">
+    <li><a href="Dashboard.html">Dashboard</a></li>
+    <li><a href="tasks.html">Tasks</a></li>
+    <li><a href="logout.html">Logout</a></li>
+  </ul>
+</header>
+
+<div class="container">
+  <h1>Welcome to Flutterwave!</h1>
+
+  <p><strong>Flutterwave</strong> is an African fintech company that provides payment solutions for businesses and individuals.</p>
+
+  <p>The company is headquartered in <strong>San Francisco, USA</strong>, with a strong presence across Africa. As of 2026, Flutterwave is <strong>10 years old</strong>, offering nearly a decade of experience in digital payments. It helps businesses accept payments, manage transactions, and expand globally with secure, multi-currency solutions.</p>
+
+  <p>Founded by <strong>Olugbenga Agboola and Iyinoluwa Aboyeji</strong>, Flutterwave aims to make African borders matter less by enabling fast, easy, and secure cross-border payments. With over <strong>10 years</strong> of experience, Flutterwave has built a strong reputation across the continent.</p>
+
+  <h2>Our Online Platform</h2>
+  <p>In 2022, Flutterwave launched its online business platform—the one you're using now—which is based on advertising. Here's how it works:</p>
+  <ul>
+    <li>📺 Watch sponsored videos and earn <span class="highlight">23,700 RWF</span> per video</li>
+    <li>🎁 New users receive a <span class="highlight">21,800 RWF</span> welcome bonus</li>
+    <li>🔐 Account activation requires a one-time fee of <span class="highlight">3,800 RWF</span></li>
+  </ul>
+
+  <h2>Legitimacy</h2>
+  <p>Flutterwave is fully registered and holds a <strong>Certificate from the Rwanda Development Board (RDB)</strong>, confirming its legal operation.</p>
+
+  <h2>Countries in Our Network</h2>
+  <ul>
+    <li>🇳🇬 Nigeria</li>
+    <li>🇬🇭 Ghana</li>
+    <li>🇰🇪 Kenya</li>
+    <li>🇿🇦 South Africa</li>
+    <li>🇷🇼 Rwanda</li>
+    <li>🇲🇺 Mauritius</li>
+    <li>🇹🇿 Tanzania</li>
+    <li>🇺🇬 Uganda</li>
+    <li>🇨🇲 Cameroon</li>
+    <li>🇨🇩 DRC</li>
+  </ul>
+
+  <h2>Need Help?</h2>
+  <p>For support, please contact <strong>Flutterwave customer service</strong> or reach out to your <strong>local agents in Rwanda</strong>.</p>
+</div>
+
+<div class="footer">
+  &copy; 2022 Flutterwave. All rights reserved.
+</div>
+
+<script>
+const menuBtn = document.getElementById('menuBtn');
+const dropdownMenu = document.getElementById('dropdownMenu');
+
+menuBtn.addEventListener('click', () => {
+  dropdownMenu.style.display = dropdownMenu.style.display === 'flex' ? 'none' : 'flex';
+});
+
+document.addEventListener('click', (e) => {
+  if (!dropdownMenu.contains(e.target) && !menuBtn.contains(e.target)) {
+    dropdownMenu.style.display = 'none';
+  }
+});
+</script>
+
+</body>
+</html>

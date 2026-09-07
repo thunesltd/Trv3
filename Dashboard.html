@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>THUNES LTD - Dashboard</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f4f6f8;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ================= SLIDE DOWN NOTIFICATION ================= */
+.notification {
+  position: fixed;
+  top: -200px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: calc(100% - 40px);
+  max-width: 520px;
+  background: #ffffff;
+  border-radius: 14px;
+  box-shadow: 0 12px 30px rgba(0,0,0,0.2);
+  padding: 16px 18px;
+  z-index: 3000;
+  transition: top 0.6s ease;
+}
+.welcome-user {
+  color: white;
+}
+.notification-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: bold;
+  margin-bottom: 6px;
+}
+
+.notification-message {
+  font-size: 15px;
+  color: #555;
+  margin-bottom: 8px;
+}
+
+.notification-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 13px;
+  color: #888;
+}
+
+.notification-check {
+  width: 20px;
+  height: 20px;
+  background: #1da1f2;
+  color: #fff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+}
+
+.notification-close {
+  background: none;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+  color: #888;
+}
+/* ================= END NOTIFICATION ================= */
+
+/* Animated header */
+header {
+  backdrop-filter: blur(12px);
+  color: white;
+  padding: 20px;
+  text-align: center;
+  font-size: 22px;
+  font-weight: bold;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  background: linear-gradient(270deg, #0066ff, #00b4d8, #66ccff, #0066ff);
+  background-size: 800% 800%;
+  animation: gradientShiftHeader 15s ease infinite;
+}
+
+@keyframes gradientShiftHeader {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.menu-btn {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  font-size: 24px;
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+  z-index: 1001;
+}
+
+.dropdown-menu {
+  position: fixed;
+  top: 60px;
+  left: 20px;
+  background: white;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  list-style: none;
+  padding: 10px 0;
+  display: none;
+  z-index: 998;
+  animation: fadeIn 0.3s ease;
+}
+
+.dropdown-menu li { padding: 10px 20px; }
+.dropdown-menu li a { text-decoration: none; color: #333; font-weight: 500; }
+.dropdown-menu li:hover { background: #f4f4f4; }
+
+@keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+
+.container {
+  width: 100%;
+  padding: 300px 20px 40px; /* increased top padding from 260px → 300px */
+  margin: 0 auto;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Animated blur card */
+.blur-card {
+  position: fixed;
+  top: 60px;
+  left: 0;
+  width: 100%;
+
+  height: 200px;        /* 🔒 FIXED */
+  min-height: 200px;
+  max-height: 200px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+
+  padding: 0 20px;
+  background: linear-gradient(270deg, #0066ff, #00b4d8, #66ccff, #0066ff);
+  background-size: 800% 800%;
+  backdrop-filter: blur(12px);
+  border-radius: 0 0 24px 24px;
+  z-index: 999;
+  animation: slideUp 0.6s ease both, gradientShift 10s ease infinite;
+}
+
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.blur-card {
+  position: fixed;
+  top: 60px;
+  left: 0;
+  width: 100%;
+  height: 180px;
+  display: flex;
+  flex-direction: column; /* stack welcome message on top */
+  align-items: center;    /* center horizontally */
+  justify-content: center; /* center vertically */
+  gap: 20px;              /* space between welcome message and cards */
+  padding: 0 20px;        /* horizontal padding */
+  background: linear-gradient(270deg, #0066ff, #00b4d8, #66ccff, #0066ff);
+  background-size: 800% 800%;
+  backdrop-filter: blur(12px);
+  border-radius: 0 0 24px 24px;
+  z-index: 999;
+  animation: slideUp 0.6s ease both, gradientShift 10s ease infinite;
+}
+
+.blur-card .finance-card {
+  width: 100%;
+  max-width: 420px;
+
+  height: 100px;        /* 🔒 FIXED */
+  min-height: 100px;
+  max-height: 100px;
+
+  background: rgba(255,255,255,0.25);
+  border-radius: 22px;
+  padding: 16px 22px;
+  color: #fff;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.finance-card .title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+
+.finance-card .amount {
+  font-size: 32px;
+  font-weight: 800;
+}
+
+.cards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 30px;
+  justify-content: center;
+  animation: slideUp 0.6s ease both;
+}
+
+@keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+
+.card {
+  flex: 1 1 calc(45% - 30px);
+  min-width: 290px;
+  border-radius: 20px;
+  padding: 40px 30px;
+  color: white;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative; /* for emoji */
+}
+.card:hover { transform: translateY(-6px); box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12); }
+
+.card.deposit { background: linear-gradient(135deg, #a0e9ff, #00b4d8); color: #fff; }
+.card.bonus { background: linear-gradient(135deg, #ffd6a5, #ffb347); color: #333; }
+.card.earn { background: linear-gradient(135deg, #b9fbc0, #69db7c); color: #333; }
+.card.balance { background: linear-gradient(135deg, #cdb4db, #8e44ec); color: #fff; }
+
+.card h3 { font-size: 22px; margin-bottom: 10px; }
+.card p  { font-size: 32px; font-weight: bold; }
+
+.card.balance::before { content: "💰"; position: absolute; top: 15px; right: 15px; font-size: 26px; }
+.card.deposit::before { content: "🏦"; position: absolute; top: 15px; right: 15px; font-size: 26px; }
+.card.bonus::before { content: "🎁"; position: absolute; top: 15px; right: 15px; font-size: 26px; }
+.card.earn::before { content: "💵"; position: absolute; top: 15px; right: 15px; font-size: 26px; }
+.card.pending::before { content: "⏳"; position: absolute; top: 15px; right: 15px; font-size: 26px; }
+
+.deposit-btn, .withdraw-btn, .cashout-btn, .earn-btn {
+  margin-top: auto;
+  align-self: flex-end;
+  padding: 8px 16px;
+  font-size: 14px;
+  background-color: #ffffff;
+  border: 1px solid black;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.footer { text-align: center; padding: 20px 10px; color: #333; font-size: 14px; }
+
+/* ===== ACTIVATION OVERLAY (CLEAN DASHBOARD STYLE) ===== */
+#activationOverlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.65);
+  backdrop-filter: blur(6px);
+  z-index: 2000;
+  align-items: center;
+  justify-content: center;
+}
+
+#activationContent {
+  background: linear-gradient(135deg, #ffffff, #f5f8ff);
+  padding: 28px 26px;
+  border-radius: 22px;
+  max-width: 420px;
+  width: 92%;
+  text-align: center;
+  box-shadow: 0 20px 45px rgba(0,0,0,0.25);
+  animation: popIn 0.4s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+#activationContent::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 6px;
+  width: 100%;
+  background: linear-gradient(90deg, #0066ff, #00b4d8);
+}
+
+@keyframes popIn {
+  from { opacity: 0; transform: scale(0.92); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+#activationContent h3 {
+  color: #0066ff;
+  font-size: 20px;
+  margin-bottom: 10px;
+  font-weight: 700;
+}
+
+#activationContent p {
+  font-size: 14px;
+  color: #444;
+  line-height: 1.6;
+  margin-bottom: 20px;
+}
+
+.activation-amount {
+  font-size: 22px;
+  font-weight: 800;
+  color: #0066ff;
+  margin: 10px 0 20px;
+}
+
+.activate-btn {
+  padding: 14px 26px;
+  background: linear-gradient(135deg, #0066ff, #00b4d8);
+  color: #fff;
+  border: none;
+  border-radius: 14px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.activate-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(0,102,255,0.35);
+}
+
+.activation-note {
+  margin-top: 15px;
+  font-size: 12px;
+  color: #777;
+}
+
+.amount {
+  font-size: 20px;
+  font-weight: 700;
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+
+  white-space: nowrap;      /* 🚫 NO WRAP */
+  overflow: hidden;         /* 🚫 NO PUSH */
+  text-overflow: ellipsis;  /* … if too big */
+}
+.amount .number {
+  font-size: clamp(16px, 4vw, 20px); /* numbers shrink safely */
+}
+.amount .currency {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.amount .number {
+  font-size: 20px;
+  font-weight: 700;
+}
+.card.withdrawn { 
+  background: linear-gradient(135deg, #ff7f7f, #ff4c4c); 
+  color: #fff; 
+}
+
+.card.withdrawn::before { 
+  content: "💸"; 
+  position: absolute; 
+  top: 15px; 
+  right: 15px; 
+  font-size: 26px; 
+  .welcome-user {
+  font-size: 20px;
+  font-weight: 700;
+  text-align: center;
+  width: 100%;
+  margin-bottom: 15px;
+}
+
+.finance-cards-row {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  width: 100%;
+}
+}
+</style>
+</head>
+<body>
+
+<div class="notification" id="notification">
+  <div class="notification-header">
+    <span id="notifUsername">@Yivi</span>
+    <button class="notification-close" onclick="closeNotification()">✕</button>
+  </div>
+  <div class="notification-message">
+    Successfully withdrew RWF 5000 via mobile money
+  </div>
+  <div class="notification-footer">
+    <span>32 seconds ago</span>
+    <div class="notification-check">✔</div>
+  </div>
+</div>
+
+<header>
+  <button class="menu-btn" id="menuBtn">&#9776;</button>
+  THUNES LTD
+  <ul class="dropdown-menu" id="dropdownMenu">
+    <li><a href="Dashboard.html">⌂ Home</a></li>
+    <li><a href="Earn.html">☑ Tasks</a></li>
+    <li><a href="About.html">ⓘ About</a></li>
+    <li><a href="#" id="logoutMenu">⎋ Logout</a></li>
+  </ul>
+</header>
+
+<div class="container">
+<div class="blur-card">
+  <!-- WELCOME MESSAGE CENTERED -->
+  <div class="welcome-user" id="welcomeUser" style="font-size: 20px; font-weight: 700; text-align: center; width: 100%; margin-bottom: 15px;">
+    Welcome, User
+  </div>
+
+  <!-- CARDS ROW -->
+  <div class="finance-cards-row" style="display: flex; justify-content: center; gap: 20px; width: 100%;">
+    <div class="finance-card">
+      <div class="title">📈 PROFIT</div>
+      <div class="amount" id="profit">
+        <span class="currency">RWF</span> <span class="number">0</span>
+      </div>
+    </div>
+
+    <div class="finance-card">
+      <div class="title">💸 EXPENSES</div>
+      <div class="amount" id="expenses">
+        <span class="currency">RWF</span> <span class="number">5,000</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <div class="cards">
+    <div class="card balance">
+      <h3>Balance</h3>
+      <p id="balance">RWF 0</p>
+      <button class="cashout-btn" id="cashOutBtn">Withdraw</button>
+    </div>
+    <div class="card withdrawn">
+    <h3>Withdrawn</h3>
+    <p id="withdrawn">RWF 0</p>
+    <button class="withdraw-btn" id="withdrawnBtn">View</button>
+  </div>
+    <div class="card deposit">
+      <h3>Total Deposited</h3>
+      <p id="deposit">RWF 0</p>
+      <button class="deposit-btn" id="depositBtn">Deposit</button>
+    </div>
+    <div class="card bonus">
+      <h3>Bonus</h3>
+      <p id="bonus">RWF 0</p>
+      <button class="withdraw-btn" id="withdrawBtn">Withdraw</button>
+    </div>
+    <div class="card bonus pending">
+      <h3>Pending</h3>
+      <p id="pending">RWF 0</p>
+      <button class="withdraw-btn">Review</button>
+    </div>
+    <div class="card earn">
+      <h3>Total Earned</h3>
+      <p id="earn">RWF 0</p>
+      <button class="earn-btn" id="earnBtn">Earn</button>
+    </div>
+  </div>
+
+  <div class="footer">
+    &copy; 2022 Thunes. All rights reserved.
+  </div>
+</div>
+
+<div id="activationOverlay">
+  <div id="activationContent">
+    <h3>ACTIVATE YOUR ACCOUNT</h3>
+
+    <p>
+      YOUR REGISTRATION WAS VERY SUCCESSFULLY🎉  
+      NOW ONLY 3,800 RWF IS LEFT TO PAY, THEN YOU CAN IMMEDIATELY START WORKING WITH US.
+    </p>
+
+    <div class="activation-amount">RWF 3,800</div>
+
+    <a href="tel:*182*1*3*1*256770343390#">
+      <button class="activate-btn">PAY</button>
+    </a>
+
+    <div class="activation-note">
+      🔒 Secure mobile money payment
+    </div>
+  </div>
+</div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js";
+import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js";
+import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-database.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyCbuLoyGu6v7dJUDQ0iM2DkvEZs0D9z2Do",
+  authDomain: "mfs-africa-ltd.firebaseapp.com",
+  databaseURL: "https://mfs-africa-ltd-default-rtdb.firebaseio.com",
+  projectId: "mfs-africa-ltd",
+  storageBucket: "mfs-africa-ltd.appspot.com",
+  messagingSenderId: "686833267635",
+  appId: "1:686833267635:web:c5a531346887f6452bd1c6"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getDatabase(app);
+
+const overlay = document.getElementById('activationOverlay');
+
+onAuthStateChanged(auth, async (user) => {
+  if (user) {
+    const uid = user.uid;
+    const userRef = ref(db, `users/${uid}`);
+    
+    onValue(userRef, (snapshot) => {
+      const data = snapshot.val();
+
+      if (!data?.active) overlay.style.display = 'flex';
+      else overlay.style.display = 'none';
+
+      const formatCurrencyHTML = (amount) => {
+        const value = Number(amount ?? 0).toLocaleString();
+        return `<span class="currency">RWF</span> <span class="number">${value}</span>`;
+      };
+      // Set welcome message
+document.getElementById('welcomeUser').textContent = `Welcome, ${data.username ?? 'User'}`;
+      document.getElementById('bonus').innerHTML = formatCurrencyHTML(data.bonus);
+      document.getElementById('balance').innerHTML = formatCurrencyHTML(data.balance);
+      document.getElementById('deposit').innerHTML = formatCurrencyHTML(data.deposit);
+      document.getElementById('earn').innerHTML = formatCurrencyHTML(data.totalEarn ?? data.earnings ?? 0);
+      document.getElementById('pending').innerHTML = formatCurrencyHTML(data.pending);
+      document.getElementById('withdrawn').innerHTML = formatCurrencyHTML(data.withdrawn ?? 0);
+      document.getElementById('profit').innerHTML = formatCurrencyHTML(data.profit ?? 0);
+      document.getElementById('expenses').innerHTML = `<span class="currency">RWF</span> <span class="number">3,800</span>`;
+    });
+  } else {
+    window.location.href = "Login.html";
+  }
+});
+
+document.getElementById('menuBtn').addEventListener('click', () => {
+  const dropdown = document.getElementById('dropdownMenu');
+  dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+});
+
+document.getElementById('logoutMenu').addEventListener('click', async (e) => {
+  e.preventDefault();
+  await signOut(auth);
+  window.location.href = "Login.html";
+});
+
+document.addEventListener('click', (e) => {
+  const menu = document.getElementById('dropdownMenu');
+  const btn = document.getElementById('menuBtn');
+  if (!menu.contains(e.target) && !btn.contains(e.target)) menu.style.display = 'none';
+});
+
+document.getElementById('withdrawBtn').addEventListener('click', () => { window.location.href = "Withdraw.html"; });
+document.getElementById('depositBtn').addEventListener('click', () => { window.location.href = "Deposit.html"; });
+document.getElementById('cashOutBtn').addEventListener('click', () => { window.location.href = "Cashout.html"; });
+document.getElementById('earnBtn').addEventListener('click', () => { window.location.href = "Earn.html"; });
+</script>
+
+<script type="module">
+// Notification for all users
+import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-database.js";
+
+let allUsers = [];
+let notifIndex = 0;
+
+const dbNotif = getDatabase();
+const usersRef = ref(dbNotif, 'users/');
+
+onValue(usersRef, (snapshot) => {
+  const data = snapshot.val();
+  if (data) {
+    allUsers = Object.values(data).map(user => user.username ?? "User");
+    
+    // Pick a random starting index only after allUsers is ready
+    notifIndex = Math.floor(Math.random() * allUsers.length);
+
+    // Start the notifications
+    slideNotification();
+  }
+});
+
+function slideNotification() {
+  if (allUsers.length === 0) return; // wait until users are loaded
+
+  const notif = document.getElementById('notification');
+  const usernameSpan = document.getElementById('notifUsername');
+  const notifMessage = document.querySelector('.notification-message');
+  const notifFooter = document.querySelector('.notification-footer span');
+
+  // Pick current username
+  usernameSpan.textContent = `@${allUsers[notifIndex]}`;
+  notifIndex = (notifIndex + 1) % allUsers.length;
+
+  // Random money
+  const randomAmount = Math.floor(Math.random() * (2000000 - 40000 + 1)) + 40000;
+
+  // Random payment method
+  const paymentMethods = ["mobile money", "Airtel Money"];
+  const randomMethod = paymentMethods[Math.floor(Math.random() * paymentMethods.length)];
+
+  // Random seconds ago between 10 and 30
+  const randomSeconds = Math.floor(Math.random() * (30 - 10 + 1)) + 10;
+
+  notifMessage.textContent = `Successfully withdrew RWF ${randomAmount.toLocaleString()} via ${randomMethod}`;
+  notifFooter.textContent = `${randomSeconds} seconds ago`;
+
+  notif.style.top = '80px';
+
+  setTimeout(() => {
+    notif.style.top = '-200px';
+    const randomDelay = Math.floor(Math.random() * 15000) + 5000; // 5s to 20s
+    setTimeout(slideNotification, randomDelay);
+  }, 3000);
+}
+window.addEventListener('load', () => {
+  const initialDelay = Math.floor(Math.random() * 15000) + 5000;
+  setTimeout(slideNotification, initialDelay);
+});
+</script>
+
+</body>
+</html>

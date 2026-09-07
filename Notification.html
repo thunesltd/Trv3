@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Right Notification</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f0f2f5;
+    }
+
+    .notification {
+      position: fixed;
+      top: -150px;
+      right: 20px;
+      background: linear-gradient(135deg, #ffffff, #f8f9fa);
+      border-left: 6px solid #4CAF50;
+      border-radius: 16px;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+      padding: 20px 24px;
+      width: 340px;
+      max-width: 90%;
+      z-index: 1000;
+      transition: top 0.6s ease, opacity 0.4s ease;
+      opacity: 0;
+    }
+
+    .notification.show {
+      top: 24px;
+      opacity: 1;
+    }
+
+    .notification .user {
+      font-weight: 700;
+      font-size: 16px;
+      color: #2c3e50;
+    }
+
+    .notification .message {
+      margin-top: 8px;
+      font-size: 15px;
+      color: #444;
+      line-height: 1.5;
+    }
+
+    .notification .message strong {
+      color: #000;
+    }
+
+    .notification .time {
+      margin-top: 12px;
+      font-size: 12px;
+      color: #6c757d;
+      display: flex;
+      align-items: center;
+    }
+
+    .notification .time .check {
+      color: #28a745;
+      font-size: 14px;
+      margin-left: 6px;
+    }
+
+    .notification::before {
+      content: "";
+      font-size: 22px;
+      margin-right: 10px;
+      display: inline-block;
+      position: absolute;
+      top: 20px;
+      left: 16px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="notification" id="notification">
+  <div class="user" id="username">👤@cyusa1</div>
+  <div class="message" id="message">He cashed out <strong>RWF1,500,000</strong> from ONAFRIQ MAURITIUS.</div>
+  <div class="time">Just now <span class="check">✔</span></div>
+</div>
+
+<script>
+  const users = ["@cyusa1", "@umugisha23", "@ragsmuffin", "@nzeyimana", "@gasaro07","@aime","@kevin1","@claude1","@jovia3","@claudine","@ruth8","@mutesi2","@vestine05","@gasangwa06"];
+  const notification = document.getElementById('notification');
+  const username = document.getElementById('username');
+  const message = document.getElementById('message');
+
+  function getRandomAmount(min, max) {
+    const amount = Math.floor(Math.random() * ((max - min) / 100 + 1)) * 100 + min;
+    return `RWF${amount.toLocaleString()}`;
+  }
+
+  function showNotification() {
+    const randomUser = users[Math.floor(Math.random() * users.length)];
+    const randomAmount = getRandomAmount(102000, 1045500);
+    
+    username.textContent = `👤${randomUser}`;
+    message.innerHTML = `He cashed out <strong>${randomAmount}</strong> from ONAFRIQ MAURITIUS.`;
+
+    notification.classList.add('show');
+
+    // Hide after 5 seconds
+    setTimeout(() => {
+      notification.classList.remove('show');
+    }, 5000);
+  }
+
+  // Show a new notification every 15 seconds
+  setInterval(showNotification, 15000);
+</script>
+
+</body>
+</html>
